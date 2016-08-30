@@ -2,6 +2,13 @@ require 'telegram/bot'
 require 'pry'
 require 'redis'
 
+# daemonize
+Process.daemon(true,true)
+
+# write pid to a .pid file
+pid_file = File.dirname(__FILE__) + "#{__FILE__}.pid"
+File.open(pid_file, 'w') { |f| f.write Process.pid }
+
 token = '257493779:AAEWFMdfDhlnK8isYU0NdrTtq14N8SnXask'
 room_regex = /\A[a-z0-9]{4}\z/i
 redis = Redis.new
