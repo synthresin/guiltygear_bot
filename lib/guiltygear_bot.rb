@@ -13,7 +13,7 @@ File.open(pid_file, 'w') { |f| f.write Process.pid }
 token = '257493779:AAEWFMdfDhlnK8isYU0NdrTtq14N8SnXask'
 room_regex = /\A[a-z0-9]{4}\z/i
 redis = Redis.new
-log = Logger.new(File.expand_path("..", Dir.pwd) + "log/#{__FILE__}.log", 'monthly')
+log = Logger.new(File.expand_path("..", Dir.pwd) + "/log/#{__FILE__}.log", 'monthly')
 log.debug 'bot initiated'
 
 Telegram::Bot::Client.run(token) do |bot|
