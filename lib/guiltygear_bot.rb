@@ -64,6 +64,9 @@ Telegram::Bot::Client.run(token) do |bot|
       when '모두삭제'
         redis.del("guiltygear:rooms")
         bot.api.send_message(chat_id: message.chat.id, text: "플매방 모두 삭제 성공!")
+      when '전부삭제'
+        redis.del("guiltygear:rooms")
+        bot.api.send_message(chat_id: message.chat.id, text: "플매방 모두 삭제 성공!")
       when '목록'
         bot.api.send_message(chat_id: message.chat.id, text: "현재 플매방 목록 : #{rooms.join(' ')}")
       else
