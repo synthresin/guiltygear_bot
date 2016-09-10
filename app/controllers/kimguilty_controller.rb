@@ -10,8 +10,10 @@ class KimguiltyController < ApplicationController
     redis = Redis.new(host: 'localhost', port: 6379)
 
     text = params[:message][:text]
-    chat_id = params[:message][:chat][:id]
+    return head :ok, content_type: "text/html" unless text
+
     args = text.split
+    chat_id = params[:message][:chat][:id]
 
     return head :ok, content_type: "text/html" unless args[0] == "김길티" || args[0] == "김길티!"
 
