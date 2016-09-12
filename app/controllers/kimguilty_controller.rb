@@ -9,7 +9,7 @@ class KimguiltyController < ApplicationController
     room_regex = /\A[a-z0-9]{4}\z/i
     redis = Redis.new(host: 'localhost', port: 6379)
 
-    text = params[:message][:text]
+    text = params[:message] && params[:message][:text]
     return head :ok, content_type: "text/html" unless text
 
     args = text.split
