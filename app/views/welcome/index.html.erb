@@ -1,6 +1,6 @@
 <% if @rooms.length > 0 %>
   <h3>헌재 운영중인 레벨레이터 플매방 코드</h3>
-  <h1><%= @rooms.join(', ') %></h1>
+  <h1><%= @rooms.pluck(:code).join(', ') %></h1>
 <% else %>
   <h3>현재 운영중인 레벨레이터 플매방이 없습니다</h3>
 <% end %>
