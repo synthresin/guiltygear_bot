@@ -23,7 +23,7 @@ class KimguiltyController < ApplicationController
       when '추가'
         room = Room.new(code: code)
         if room.save
-          bot.api.send_message(chat_id: chat_id, text: "#{room.code} 플매방 추가 성공!\n현재 플매방 목록 : #{Room.all.pluck(:code).join(' ')}")
+          bot.api.send_message(chat_id: chat_id, text: "#{room.code} 플매방 추가 성공!\n\n#{Room.list_message}", parse_mode: "Markdown")
         else
           bot.api.send_message(chat_id: chat_id, text: room.bot_error_message)
         end
@@ -36,7 +36,7 @@ class KimguiltyController < ApplicationController
         room = Room.find_by(code: code)
         if room
           room.destroy
-          bot.api.send_message(chat_id: chat_id, text: "#{code} 플매방 삭제 성공!\n현재 플매방 목록 : #{Room.all.pluck(:code).join(' ')}")
+          bot.api.send_message(chat_id: chat_id, text: "#{code} 플매방 삭제 성공!\n\n#{Room.list_message}", parse_mode: "Markdown")
         else
           bot.api.send_message(chat_id: chat_id, text: "#{code}는 없는 플매방 번호임.")
         end
