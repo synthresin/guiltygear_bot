@@ -27,3 +27,14 @@ api.call('setWebhook', {
   url: local_webhook_url
 })
 ```
+
+### 실서버 인증서 url 셋업
+```
+require 'telegram/bot'
+
+api = Telegram::Bot::Api.new(beta_token)
+api.call('setWebhook', {
+  url: 'https://222.109.105.153:80/kimguilty',
+  certificate: '/Users/parkseongwan/.ssh/server.pem'
+})
+```
