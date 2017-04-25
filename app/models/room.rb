@@ -9,6 +9,8 @@ class Room < ApplicationRecord
                      allow_blank: true
                    }
 
+  after_create :send_ifttt_create_event
+
   def bot_error_message
     errors.map { |attr, msg| msg }.join(" ")
   end
@@ -23,5 +25,10 @@ class Room < ApplicationRecord
     room_infos.inject("*현재 플매방 목록*") do |full_message, room_info|
       full_message + "\n#{room_info}"
     end
+  end
+
+  def send_ifttt_create_event
+    uri = URI('https://maker.ifttt.com/trigger/kimguilty/with/key/cLP0WwfNfDmeybyi-BW0dM')
+    Net::HTTP.post_form(uri, value1: '생성', value2: code)
   end
 end
