@@ -9,7 +9,7 @@ class Room < ApplicationRecord
                      allow_blank: true
                    }
 
-  after_create :send_ifttt_create_event
+  after_create :send_create_notification
 
   def bot_error_message
     errors.map { |attr, msg| msg }.join(" ")
@@ -27,8 +27,25 @@ class Room < ApplicationRecord
     end
   end
 
-  def send_ifttt_create_event
-    uri = URI('https://maker.ifttt.com/trigger/kimguilty/with/key/cLP0WwfNfDmeybyi-BW0dM')
-    Net::HTTP.post_form(uri, value1: '생성', value2: code)
+  def send_create_notification
+    uri = URI.parse("https://fcm.googleapis.com/fcm/send")
+    request = Net::HTTP::Post.new(uri)
+    request.content_type = "application/json"
+    request["Authorization"] = "key=AAAAWFRfwG8:APA91bEHnyrH92YH6VMudWhNl4aZ6qnJ6Op-THYMqnmAAAP1o6g7-lb1tXI8q8YexzGGujQjmVJcYf8s309PVwcH-mP8vyFDEeoLu20FEbaXbcoIacOB-HyvpYw_mDF9rzxP_8Q-4Gdp"
+    request.body = JSON.dump({
+      "to" => "/topics/kimguilty",
+      "data" => {
+        "message" => "플매방 #{code} 생성됨",
+        "timestamp" => Time.now.to_i
+      }
+    })
+
+    req_options = {
+      use_ssl: uri.scheme == "https",
+    }
+
+    response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+      http.request(request)
+    end
   end
 end
